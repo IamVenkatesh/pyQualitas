@@ -4,6 +4,5 @@ This is a project to develop python scripts for validating the data. This is an 
 Pre-requisites:
 
 1. Pyspark
-2. Pandas
 
 
