@@ -36,7 +36,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Set Python Path
       run: |
-        export PYTHONPATH=$PYTHONPATH:./src  
+        export PYTHONPATH=src  
     - name: Test with UnitTest
       run: |
         python -m unittest -v tests/test_singledfchecks.py
