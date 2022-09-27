@@ -46,5 +46,29 @@ class TestSingleDfChecks(unittest.TestCase):
         test_class = SingleDataFrameChecks(employee)
         self.assertEqual(test_class.check_empty(), 'Passed')
 
+    def test_check_threshold_sum(self):
+        employee = self.spark.createDataFrame(data=self.employee_data, schema=self.employee_schema)
+        test_class = SingleDataFrameChecks(employee)
+        self.assertEqual(test_class.check_threshold_sum(lower_limit=50000, upper_limit=320000, sum_column="salary", group_columns=["firstname", "employee_id"]), 'Passed')
+        self.assertEqual(test_class.check_threshold_sum(lower_limit=50000, upper_limit=30000, sum_column="salary", group_columns=["employee_id"]), 'Failed')
+    
+    def test_check_nulls(self):
+        employee = self.spark.createDataFrame(data=self.employee_data, schema=self.employee_schema)
+        test_class = SingleDataFrameChecks(employee)
+        self.assertEqual(test_class.check_nulls(["firstname", "lastname"]), 'Passed')
+        self.assertEqual(test_class.check_nulls(["middlename"]), 'Failed')
+
+    def test_check_threshold_nulls(self):
+        employee = self.spark.createDataFrame(data=self.employee_data, schema=self.employee_schema)
+        test_class = SingleDataFrameChecks(employee)
+        self.assertEqual(test_class.check_threshold_nulls(["middlename"], 0.1, 0.6), 'Passed')
+        self.assertEqual(test_class.check_threshold_nulls(["middlename"], 0.1, 0.4), 'Failed')
+
+    def test_check_columns(self):
+        employee = self.spark.createDataFrame(data=self.employee_data, schema=self.employee_schema)
+        test_class = SingleDataFrameChecks(employee)
+        self.assertEqual(test_class.check_columns(["firstname", "middlename", "lastname", "employee_id", "gender", "salary"]), 'Passed')
+        self.assertEqual(test_class.check_columns(["hike_percentage"]), 'Failed')
+
 if __name__ == '__main__':
     unittest.main()
