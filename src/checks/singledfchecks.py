@@ -1,5 +1,6 @@
+from calendar import c
 from pyspark.sql import functions
-from pyspark.sql.functions import sum
+from pyspark.sql.functions import sum, col
 
 
 class SingleDataFrameChecks:
@@ -201,6 +202,30 @@ class SingleDataFrameChecks:
                 items for items in dataframe_columns if items not in columns]
             print("There are columns which do not match the user defined columns. The list of columns names are: {0}".format(
                 missing_columns))
+            status = 'Failed'
+
+        return status
+
+    def check_pattern(self, column, regular_expression):
+        """
+        Summary: This function is used to check if the values in a specific column has the correct regular expression pattern
+
+        Parameters: A single Column from the dataframe which is of type string
+
+        Output: Returns the status of the test i.e. Passed or Failed
+
+        """
+        input_column_values = self.dataframe.select(column).rdd.map(lambda x: x[0]).collect()
+        transformed_column_values = self.dataframe.filter(col(column).rlike(regular_expression)).select(column).rdd.map(lambda x: x[0]).collect()
+
+        if input_column_values == transformed_column_values:
+            print("The column values are conformant to the user specified format")
+            status = 'Passed'
+        else:
+            missing_values = [
+                items for items in input_column_values if items not in transformed_column_values]
+            print("There are columns which do not match the user specified format. The list of columns names are: {0}".format(
+                missing_values))
             status = 'Failed'
 
         return status

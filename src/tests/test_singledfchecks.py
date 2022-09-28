@@ -69,6 +69,11 @@ class TestSingleDfChecks(unittest.TestCase):
         test_class = SingleDataFrameChecks(employee)
         self.assertEqual(test_class.check_columns(["firstname", "middlename", "lastname", "employee_id", "gender", "salary"]), 'Passed')
         self.assertEqual(test_class.check_columns(["hike_percentage"]), 'Failed')
+    
+    def test_check_patterns(self):
+        employee = self.spark.createDataFrame(data=self.employee_data, schema=self.employee_schema)
+        test_class = SingleDataFrameChecks(employee)
+        self.assertEqual(test_class.check_pattern("salary", "^[\\d]+$"), 'Passed')
 
 if __name__ == '__main__':
     unittest.main()
