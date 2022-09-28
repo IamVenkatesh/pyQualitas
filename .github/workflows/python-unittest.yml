@@ -17,8 +17,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Print Current directory
       run: |
-        echo pwd
+        echo $pwd
+        echo $ls -l
     - name: Set up Python 3.8.10
       uses: actions/setup-python@v3
       with:
