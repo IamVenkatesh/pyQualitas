@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       run: |
-        echo $pwd
+        echo pwd
     - name: Set up Python 3.8.10
       uses: actions/setup-python@v3
       with:
