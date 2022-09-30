@@ -1,6 +1,6 @@
-from calendar import c
 from pyspark.sql import functions
 from pyspark.sql.functions import sum, col
+from utils.logger import CustomLogger
 
 
 class SingleDataFrameChecks:
@@ -8,6 +8,8 @@ class SingleDataFrameChecks:
     def __init__(self, dataframe):
 
         self.dataframe = dataframe
+        self.logger_instance = CustomLogger('singledfchecks.log', 10)
+        self.logger = self.logger_instance.instantiate()
 
     def check_duplicates(self, columns):
         """
@@ -26,13 +28,13 @@ class SingleDataFrameChecks:
             total_count = self.dataframe.select(column).count()
 
             if distinct_count == total_count:
-                print("The column {0} has no duplicate values".format(column))
+                self.logger.info("The column {0} has no duplicate values".format(column))
             else:
                 duplicates = self.dataframe.groupBy(column).agg(functions.count(
                     '*').alias('count')).filter(functions.col('count') > 1)
                 duplicate_values = set(duplicates.select(
                     column).rdd.map(lambda x: x[0]).collect())
-                print("The column {0} has duplicate values. The following are the list of duplicates: {1}".format(
+                self.logger.warning("The column {0} has duplicate values. The following are the list of duplicates: {1}".format(
                     column, duplicate_values))
                 columns_with_duplicates += 1
 
@@ -56,11 +58,11 @@ class SingleDataFrameChecks:
         total_count = self.dataframe.count()
 
         if lower_limit <= total_count <= upper_limit:
-            print("The count is between the defined lower and upper limits. The count for the table is: {0}".format(
+            self.logger.info("The count is between the defined lower and upper limits. The count for the table is: {0}".format(
                 total_count))
             status = 'Passed'
         else:
-            print("The count is not between the defined lower and upper limits. The count for the table is: {0}".format(
+            self.logger.warning("The count is not between the defined lower and upper limits. The count for the table is: {0}".format(
                 total_count))
             status = 'Failed'
 
@@ -77,11 +79,11 @@ class SingleDataFrameChecks:
         total_count = self.dataframe.count()
 
         if total_count > 0:
-            print("The table is not empty. The total record count in the table is: {0}".format(
+            self.logger.info("The table is not empty. The total record count in the table is: {0}".format(
                 total_count))
             status = 'Passed'
         else:
-            print("The table is empty")
+            self.logger.warning("The table is empty")
             status = 'Failed'
 
         return status
@@ -109,10 +111,11 @@ class SingleDataFrameChecks:
                 threshold_sum_count += 1
 
         if threshold_sum_count > 0:
-            print("There are {0} grouping instances where the sum value is not within the define threshold".format(
+            self.logger.warning("There are {0} grouping instances where the sum value is not within the define threshold".format(
                 threshold_sum_count))
             status = 'Failed'
         else:
+            self.logger.info("The sum value in {0} column is within the defined threshold".format(0))
             status = 'Passed'
 
         return status
@@ -134,10 +137,10 @@ class SingleDataFrameChecks:
             total_count = self.dataframe.count()
 
             if count_without_nulls == total_count:
-                print("The column: {0} has no null values".format(column))
+                self.logger.info("The column: {0} has no null values".format(column))
             else:
                 null_count = total_count - count_without_nulls
-                print("The column: {0} contains {1} null values".format(
+                self.logger.warning("The column: {0} contains {1} null values".format(
                     column, null_count))
                 columns_with_nulls += 1
 
@@ -168,10 +171,10 @@ class SingleDataFrameChecks:
             null_percentage = (null_count / total_count)
 
             if lower_limit <= null_percentage <= upper_limit:
-                print(
+                self.logger.info(
                     "The column: {0} contains null values within the defined percentage".format(column))
             else:
-                print(
+                self.logger.warning(
                     "The column: {0} contains null values that are not within the defined percentage".format(column))
                 columns_with_nulls += 1
 
@@ -195,12 +198,12 @@ class SingleDataFrameChecks:
         dataframe_columns = self.dataframe.columns
 
         if dataframe_columns == columns:
-            print("The expected columns are present in the dataset")
+            self.logger.info("The expected columns are present in the dataset")
             status = 'Passed'
         else:
             missing_columns = [
                 items for items in dataframe_columns if items not in columns]
-            print("There are columns which do not match the user defined columns. The list of columns names are: {0}".format(
+            self.logger.warning("There are columns which do not match the user defined columns. The list of columns names are: {0}".format(
                 missing_columns))
             status = 'Failed'
 
@@ -219,12 +222,12 @@ class SingleDataFrameChecks:
         transformed_column_values = self.dataframe.filter(col(column).rlike(regular_expression)).select(column).rdd.map(lambda x: x[0]).collect()
 
         if input_column_values == transformed_column_values:
-            print("The column values are conformant to the user specified format")
+            self.logger.info("The column values are conformant to the user specified format")
             status = 'Passed'
         else:
             missing_values = [
                 items for items in input_column_values if items not in transformed_column_values]
-            print("There are columns which do not match the user specified format. The list of columns names are: {0}".format(
+            self.logger.warning("There are columns which do not match the user specified format. The list of columns names are: {0}".format(
                 missing_values))
             status = 'Failed'
 
