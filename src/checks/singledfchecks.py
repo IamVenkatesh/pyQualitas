@@ -232,3 +232,26 @@ class SingleDataFrameChecks:
             status = 'Failed'
 
         return status
+
+    def check_datatype(self, columns_with_datatypes):
+        """
+        Summary: This function is used to check if the data types of the columns are correct
+
+        Parameters: Columns with Data Types as tuples. Example: [('age', 'int'), ('name', 'string')]. The columns has to be in order. 
+
+        Output: Returns the status of the test i.e. Passed or Failed
+        
+        """
+
+        table_datatype = self.dataframe.dtypes
+
+        if table_datatype == columns_with_datatypes:
+            self.logger.info("The datatypes of the column are in conformant with user expectations")
+            status = 'Passed'
+        else:
+            missing_values = [(column, dtype) for column, dtype in table_datatype if (column, dtype) not in columns_with_datatypes]
+            self.logger.warning("The datatype of the column are not in conformant with user expectations. The non conformant columns are: {0}".format(missing_values))
+            status = 'Failed'
+        
+        return status
+
