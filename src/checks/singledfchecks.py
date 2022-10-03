@@ -28,7 +28,8 @@ class SingleDataFrameChecks:
             total_count = self.dataframe.select(column).count()
 
             if distinct_count == total_count:
-                self.logger.info("The column {0} has no duplicate values".format(column))
+                self.logger.info(
+                    "The column {0} has no duplicate values".format(column))
             else:
                 duplicates = self.dataframe.groupBy(column).agg(functions.count(
                     '*').alias('count')).filter(functions.col('count') > 1)
@@ -115,7 +116,8 @@ class SingleDataFrameChecks:
                 threshold_sum_count))
             status = 'Failed'
         else:
-            self.logger.info("The sum value in {0} column is within the defined threshold".format(0))
+            self.logger.info(
+                "The sum value in {0} column is within the defined threshold".format(0))
             status = 'Passed'
 
         return status
@@ -137,7 +139,8 @@ class SingleDataFrameChecks:
             total_count = self.dataframe.count()
 
             if count_without_nulls == total_count:
-                self.logger.info("The column: {0} has no null values".format(column))
+                self.logger.info(
+                    "The column: {0} has no null values".format(column))
             else:
                 null_count = total_count - count_without_nulls
                 self.logger.warning("The column: {0} contains {1} null values".format(
@@ -218,11 +221,14 @@ class SingleDataFrameChecks:
         Output: Returns the status of the test i.e. Passed or Failed
 
         """
-        input_column_values = self.dataframe.select(column).rdd.map(lambda x: x[0]).collect()
-        transformed_column_values = self.dataframe.filter(col(column).rlike(regular_expression)).select(column).rdd.map(lambda x: x[0]).collect()
+        input_column_values = self.dataframe.select(
+            column).rdd.map(lambda x: x[0]).collect()
+        transformed_column_values = self.dataframe.filter(col(column).rlike(
+            regular_expression)).select(column).rdd.map(lambda x: x[0]).collect()
 
         if input_column_values == transformed_column_values:
-            self.logger.info("The column values are conformant to the user specified format")
+            self.logger.info(
+                "The column values are conformant to the user specified format")
             status = 'Passed'
         else:
             missing_values = [
@@ -240,18 +246,20 @@ class SingleDataFrameChecks:
         Parameters: Columns with Data Types as tuples. Example: [('age', 'int'), ('name', 'string')]. The columns has to be in order. 
 
         Output: Returns the status of the test i.e. Passed or Failed
-        
+
         """
 
         table_datatype = self.dataframe.dtypes
 
         if table_datatype == columns_with_datatypes:
-            self.logger.info("The datatypes of the column are in conformant with user expectations")
+            self.logger.info(
+                "The datatypes of the column are in conformant with user expectations")
             status = 'Passed'
         else:
-            missing_values = [(column, dtype) for column, dtype in table_datatype if (column, dtype) not in columns_with_datatypes]
-            self.logger.warning("The datatype of the column are not in conformant with user expectations. The non conformant columns are: {0}".format(missing_values))
+            missing_values = [(column, dtype) for column, dtype in table_datatype if (
+                column, dtype) not in columns_with_datatypes]
+            self.logger.warning(
+                "The datatype of the column are not in conformant with user expectations. The non conformant columns are: {0}".format(missing_values))
             status = 'Failed'
-        
-        return status
 
+        return status
