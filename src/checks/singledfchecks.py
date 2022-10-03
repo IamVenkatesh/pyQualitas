@@ -1,5 +1,6 @@
 from pyspark.sql import functions
-from pyspark.sql.functions import sum, col
+from pyspark.sql.functions import sum, col, rank, collect_list
+from pyspark.sql.window import Window
 from src.utils.logger import CustomLogger
 
 
@@ -263,3 +264,41 @@ class SingleDataFrameChecks:
             status = 'Failed'
 
         return status
+
+    def check_rank_over_grouping(self, grouping_columns, ordering_columns, select_column, expected_values):
+        """
+        Summary: This function is used to check if the order of values in a column based on ranking logic
+
+        Parameters: List of columns for group by, list of columns for order by, single column for evaluation, list of expected values in ascending order
+
+        Output: Returns the status of the test i.e. Passed or Failed
+        
+        """
+
+        window_spec = Window.partitionBy(grouping_columns).orderBy(ordering_columns)
+        table = self.dataframe.withColumn("column_rank", rank().over(window_spec))
+        result = table.groupBy(col('column_rank')).agg(collect_list(select_column).alias('result_list')).orderBy(col('column_rank').asc)
+        actual_values = result.select(col('result_list')).rdd.map(lambda x: x[0]).collect()
+        difference_count = 0
+
+        if actual_values == expected_values:
+            for values in actual_values:
+                if actual_values.index(values) != expected_values.index(values):
+                    difference_count += 1
+            if difference_count == 0:
+                self.logger.info(
+                    "The actual ranking order is in conformance with the user expectations")
+                status = 'Passed'
+            else:
+                self.logger.warning(
+                    "The actual ranking order is not in conformance with the user expectations. The number of ranking instance with variations are: {0}".format(difference_count))
+                status = 'Failed'
+        else:
+            missing_values = [values for values in actual_values if values not in expected_values]
+            self.logger.warning(
+                    "The actual result has additional elements. The additional values are: {0}".format(missing_values))
+            status = 'Failed'
+
+        return status
+
+
