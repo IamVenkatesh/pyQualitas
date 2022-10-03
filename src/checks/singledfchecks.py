@@ -1,6 +1,6 @@
 from pyspark.sql import functions
 from pyspark.sql.functions import sum, col
-from utils.logger import CustomLogger
+from src.utils.logger import CustomLogger
 
 
 class SingleDataFrameChecks:
