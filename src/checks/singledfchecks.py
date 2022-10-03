@@ -243,7 +243,7 @@ class SingleDataFrameChecks:
         """
         Summary: This function is used to check if the data types of the columns are correct
 
-        Parameters: Columns with Data Types as tuples. Example: [('age', 'int'), ('name', 'string')]. The columns has to be in order. 
+        Parameters: Columns with Data Types as tuples. Example: [('age', 'int'), ('name', 'string')]. The columns have to be in order.
 
         Output: Returns the status of the test i.e. Passed or Failed
 
