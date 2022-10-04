@@ -13,14 +13,10 @@ class TestSingleDfChecks(unittest.TestCase):
                      ("Jen", "Mary", "Brown", 50389, "Female", 90000)]
 
     employee_schema = StructType([StructField("firstname", StringType(), nullable=False),
-                                  StructField(
-                                      "middlename", StringType(), nullable=True),
-                                  StructField(
-                                      "lastname", StringType(), nullable=False),
-                                  StructField("employee_id",
-                                              IntegerType(), nullable=False),
-                                  StructField(
-                                      "gender", StringType(), nullable=False),
+                                  StructField("middlename", StringType(), nullable=True),
+                                  StructField("lastname", StringType(), nullable=False),
+                                  StructField("employee_id", IntegerType(), nullable=False),
+                                  StructField("gender", StringType(), nullable=False),
                                   StructField("salary", IntegerType(), nullable=False)])
 
     @classmethod
@@ -106,6 +102,12 @@ class TestSingleDfChecks(unittest.TestCase):
         self.assertEqual(test_class.check_datatype([("firstname", "string"), ("middlename", "string"),
                                                     ("lastname", "string"), ("employee_id", "int"),
                                                     ("gender", "string"), ("salary", "int")]), 'Passed')
+
+    def test_check_rank_over_grouping(self):
+        employee = self.spark.createDataFrame(
+            data=self.employee_data, schema=self.employee_schema)
+        test_class = SingleDataFrameChecks(employee)
+        self.assertEqual(test_class.check_rank_over_grouping(["employee_id", "firstname"], "salary", [[36636], [39192], [40288], [42114], [50389]]), 'Passed')
 
 
 if __name__ == '__main__':
