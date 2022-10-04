@@ -5,11 +5,18 @@ from src.utils.logger import CustomLogger
 
 
 class SingleDataFrameChecks:
+    """
+    Summary: This class can be instantiated to perform checks available under this class for a single dataframe.
+    The class expects the dataframe to be passed as a parameter during the instantiation. There is also an option
+    to pass the log file location, but the default location would be the directory from which the class is instantiated.
+    The default log file name is singledfchecks.log. The default log level is 10: Debug.
 
-    def __init__(self, dataframe):
+    """
+
+    def __init__(self, dataframe, log_file_location='singledfchecks.log'):
 
         self.dataframe = dataframe
-        self.logger_instance = CustomLogger('singledfchecks.log', 10)
+        self.logger_instance = CustomLogger(log_file_location, 10)
         self.logger = self.logger_instance.instantiate()
 
     def check_duplicates(self, columns):
