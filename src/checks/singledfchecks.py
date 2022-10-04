@@ -280,7 +280,7 @@ class SingleDataFrameChecks:
         window_spec = Window.partitionBy(grouping_columns).orderBy(col(ordering_column).desc())
         table = self.dataframe.withColumn("column_rank", rank().over(window_spec))
         result = table.groupBy(col('column_rank'), col(select_column)).agg(collect_list(col(select_column)).alias('result_list')) \
-            .sort(asc(col('column_rank')), asc(col(select_column)))
+            .sort(asc('column_rank'), asc(select_column))
         actual_values = result.select(col('result_list')).rdd.map(lambda x: x[0]).collect()
         difference_count = 0
 

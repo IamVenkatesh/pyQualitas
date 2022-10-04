@@ -107,7 +107,7 @@ class TestSingleDfChecks(unittest.TestCase):
         employee = self.spark.createDataFrame(
             data=self.employee_data, schema=self.employee_schema)
         test_class = SingleDataFrameChecks(employee)
-        self.assertEqual(test_class.check_rank_over_grouping(["employee_id", "firstname"], "salary", [[36636], [39192], [40288], [42114], [50389]]), 'Passed')
+        self.assertEqual(test_class.check_rank_over_grouping(["firstname", "gender"], "salary", [["James"], ["Jen"], ["Maria"], ["Michael"], ["Robert"]]), 'Passed')
 
 
 if __name__ == '__main__':
