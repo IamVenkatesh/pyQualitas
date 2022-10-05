@@ -19,3 +19,7 @@ The main agenda behind creating this library is to help the QA Engineers to ensu
 It is very hard to achieve this using manual testing and scheduling an automated validation helps achieve the timelines and ensure a high quality of the data with less efforts.
 
 There are various tests in this library that would come in handy during the regression testing process. Since the project is implemented in Python, the learning curve is short when compared to the libraries that are available in Scala.
+
+The documentation can be found in the following link:
+
+https://github.com/IamVenkatesh/pyvalidator/wiki
