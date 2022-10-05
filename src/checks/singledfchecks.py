@@ -101,8 +101,7 @@ class SingleDataFrameChecks:
         """
         Summary: This function is used to check if the sum of a column in the table is between the limits set by the user.
 
-        Parameters: Lower Limit & Upper Limit for validating the sum, column for generating the sum, optional list of columns for group by. 
-        If not mentioned, the group by will consider all the columns
+        Parameters: Lower Limit & Upper Limit for validating the sum, column for generating the sum, list of columns for group by
 
         Output: Returns the status of the test i.e. Passed or Failed
 
