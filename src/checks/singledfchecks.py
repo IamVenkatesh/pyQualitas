@@ -1,4 +1,4 @@
-from pyspark.sql import functions
+from pyspark.sql import functions, Row
 from pyspark.sql.functions import sum, col, rank, collect_list, asc
 from pyspark.sql.window import Window
 from src.utils.logger import CustomLogger
@@ -223,14 +223,14 @@ class SingleDataFrameChecks:
         """
         Summary: This function is used to check if the values in a specific column has the correct regular expression pattern
 
-        Parameters: A single Column from the dataframe which is of type string
+        Parameters: A single Column from the dataframe, regular expression
 
         Output: Returns the status of the test i.e. Passed or Failed
 
         """
-        input_column_values = self.dataframe.select(
+        input_column_values = self.dataframe.dropDuplicates(column).select(
             column).rdd.map(lambda x: x[0]).collect()
-        transformed_column_values = self.dataframe.filter(col(column).rlike(
+        transformed_column_values = self.dataframe.dropDuplicates(column).filter(col(column).rlike(
             regular_expression)).select(column).rdd.map(lambda x: x[0]).collect()
 
         if input_column_values == transformed_column_values:
@@ -240,7 +240,7 @@ class SingleDataFrameChecks:
         else:
             missing_values = [
                 items for items in input_column_values if items not in transformed_column_values]
-            self.logger.warning("There are columns which do not match the user specified format. The list of columns names are: {0}".format(
+            self.logger.warning("The column do not match the user specified format. The list of values are: {0}".format(
                 missing_values))
             status = 'Failed'
 
