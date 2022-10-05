@@ -3,12 +3,13 @@ from time import sleep
 
 class CheckSuite:
 
-    def __init__(self, checks, retries):
+    def __init__(self, checks, retries=10, sleep_time=60):
         self.checks = checks
         self.retries = retries
+        self.sleep_time = sleep_time
         self.results = []
 
-    def collect_result(self, number_of_retries=10, sleep_time=60):
+    def collect_result(self):
         """
         Summary: This function collects the result of the test checks defined by the user
 
@@ -19,9 +20,9 @@ class CheckSuite:
         for test_name, values in self.checks.items():
             for test_description, result in values.items():
                 retry_count = 0
-                while retry_count <= number_of_retries:
+                while retry_count <= self.retries:
                     if result not in ["Passed", "Failed"]:
-                        sleep(sleep_time)
+                        sleep(self.sleep_time)
                         retry_count += 1
                     else:
                         self.results.append((test_name, test_description, result))
