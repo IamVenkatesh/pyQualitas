@@ -228,12 +228,11 @@ class SingleDataFrameChecks:
         Output: Returns the status of the test i.e. Passed or Failed
 
         """
-        input_column_values = self.dataframe.dropDuplicates(column).select(
-            column).rdd.map(lambda x: x[0]).collect()
-        transformed_column_values = self.dataframe.dropDuplicates(column).filter(col(column).rlike(
-            regular_expression)).select(column).rdd.map(lambda x: x[0]).collect()
+        input_column_values = self.dataframe.select(column).distinct().rdd.map(lambda x: x[0]).collect()
+        transformed_column_values = self.dataframe.filter(col(column).rlike(
+            regular_expression)).select(column).distinct().rdd.map(lambda x: x[0]).collect()
 
-        if input_column_values == transformed_column_values:
+        if sorted(input_column_values) == sorted(transformed_column_values):
             self.logger.info(
                 "The column values are conformant to the user specified format")
             status = 'Passed'
