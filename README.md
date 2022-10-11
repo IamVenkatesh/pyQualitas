@@ -22,4 +22,4 @@ There are various tests in this library that would come in handy during the regr
 
 The documentation can be found in the following link:
 
-https://github.com/IamVenkatesh/pyvalidator/wiki
+https://github.com/IamVenkatesh/pyQuality/wiki
