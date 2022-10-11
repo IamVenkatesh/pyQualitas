@@ -1,2 +1,0 @@
-pyspark==3.3.0
-plotly==5.10.0
