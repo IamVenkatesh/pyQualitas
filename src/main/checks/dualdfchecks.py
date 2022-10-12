@@ -98,3 +98,25 @@ class DualDataFrameChecks:
 
         return status
 
+    def check_count(self):
+
+        """
+        Summary: This function is used to check if the total record counts are the same between 2 different
+        dataframes.
+
+        Output: Returns the status of the test i.e. Passed or Failed
+
+        """
+
+        df1_count = self.df1.count()
+        df2_count = self.df2.count()
+
+        if df1_count == df2_count:
+            self.logger.info("The counts between 2 dataframes are same")
+            status = 'Passed'
+        else:
+            self.logger.warning("The counts between 2 dataframes are not matching. The count in the first dataframe "
+                                "is: {0} & the count in the second dataframe is: {1}".format(df1_count, df2_count))
+            status = 'Failed'
+
+        return status
