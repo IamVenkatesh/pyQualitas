@@ -27,3 +27,13 @@ class Helper:
         """
         return self.spark.read.format(format_type).option("header", True) \
             .option("inferSchema", infer_schema).load(hdfs_location)
+
+    def create_dataframe(self, dataframe, schema):
+        """
+        Summary: This function is helper to create a spark dataframe
+
+        Parameters: Data on which the dataframe has to be created, schema of the data
+
+        Output: Returns a spark dataframe
+        """
+        return self.spark.createDataFrame(data=dataframe, schema=schema)
