@@ -307,3 +307,56 @@ class SingleDataFrameChecks:
             status = 'Failed'
 
         return status
+
+    def check_negatives(self, column):
+        """
+        Summary: This function is used to check if there are any negative values are available in a column
+
+        Parameters: List of columns on which the check has to be performed
+
+        Output: Returns the status of the test i.e. Passed or Failed
+        """
+
+        failure_columns = []
+        for cols in column:
+            count = self.dataframe.filter(col(cols) < 0).count()
+            if count > 0:
+                failure_columns.append((cols, count))
+
+        if len(failure_columns) > 0:
+            status = 'Failed'
+            self.logger.warning("There are columns with negative values. "
+                                "The columns and the counts are: {0}".format(failure_columns))
+        else:
+            status = 'Passed'
+            self.logger.info("There are no negative values in the columns")
+
+        return status
+
+    def check_distinct_values(self, column, values):
+        """
+        Summary: This function is used to check if the distinct values in a column is same as the list defined by the
+        user
+
+        Parameters: Single column on which the check has to performed, List of values expected to be present
+        in the column
+
+        Output: Returns the status of the test i.e. Passed or Failed
+        """
+
+        difference_values = []
+        column_values = self.dataframe.select(column).distinct().rdd.map(lambda x: x[0]).collect()
+
+        for val in column_values:
+            if val not in values:
+                difference_values.append(val)
+
+        if len(difference_values) > 0:
+            status = 'Failed'
+            self.logger.warning("The column on the dataframe has additional values which are not defined by the user. "
+                                "The additional values are: {0}".format(difference_values))
+        else:
+            status = 'Passed'
+            self.logger.info("The values returned from the column are matching the values defined by the user")
+
+        return status
