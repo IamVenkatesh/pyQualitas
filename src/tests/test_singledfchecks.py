@@ -109,6 +109,23 @@ class TestSingleDfChecks(unittest.TestCase):
         test_class = SingleDataFrameChecks(employee)
         self.assertEqual(test_class.check_rank_over_grouping(["firstname", "gender"], "salary", [["James"], ["Jen"], ["Maria"], ["Michael"], ["Robert"]]), 'Passed')
 
+    def test_check_negatives(self):
+        employee = self.spark.createDataFrame(
+            data=self.employee_data, schema=self.employee_schema)
+        test_class = SingleDataFrameChecks(employee)
+        self.assertEqual(test_class.check_negatives(["salary"]), 'Passed')
+
+    def test_check_distinct_values(self):
+        employee = self.spark.createDataFrame(
+            data=self.employee_data, schema=self.employee_schema)
+        test_class = SingleDataFrameChecks(employee)
+        self.assertEqual(
+            test_class.check_distinct_values(column="firstname", values=["James", "Michael", "Robert", "Maria", "Jen"]),
+            'Passed')
+        self.assertEqual(
+            test_class.check_distinct_values(column="firstname", values=["James", "Michael", "Robert", "Maria"]),
+            'Failed')
+
 
 if __name__ == '__main__':
     unittest.main()
