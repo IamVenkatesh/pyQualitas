@@ -38,11 +38,11 @@ class Helper:
         """
         return self.spark.createDataFrame(data=dataframe, schema=schema)
 
-    def create_html_report(self, file_location):
+    def create_html_report(self, test_result, file_location):
         """
         Summary: This function is a helper to create the html report to display the results generated in checksuite
 
-        Parameters: Location with the filename to which the results have to be saved
+        Parameters: Dataframe containing test results, Location with the filename to which the results have to be saved
 
         Output: Writes the html file to the user defined location
         """

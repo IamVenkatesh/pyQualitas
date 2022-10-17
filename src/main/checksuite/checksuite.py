@@ -1,4 +1,5 @@
 from time import sleep
+import pandas as pd
 
 
 class CheckSuite:
@@ -7,7 +8,7 @@ class CheckSuite:
         self.checks = checks
         self.retries = retries
         self.sleep_time = sleep_time
-        self.results = []
+        self.results_list = []
 
     def collect_result(self):
         """
@@ -25,6 +26,7 @@ class CheckSuite:
                         sleep(self.sleep_time)
                         retry_count += 1
                     else:
-                        self.results.append((test_name, test_description, result))
+                        self.results_list.append((test_name, test_description, result))
                         break
-        return self.results
+        results = pd.DataFrame(self.results_list)
+        return results
