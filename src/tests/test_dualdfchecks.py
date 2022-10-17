@@ -69,6 +69,16 @@ class TestDualDfChecks(unittest.TestCase):
         dual_check = DualDataFrameChecks(df1, df2)
         self.assertEqual(dual_check.check_count(), 'Passed')
 
+    def test_check_compare_data(self):
+        helper = Helper(self.spark)
+        df1 = helper.create_dataframe(self.employee_data, self.employee_schema)
+        df2 = helper.create_dataframe(self.employee_data, self.employee_schema)
+        df3 = df2.limit(4)
+        dual_check = DualDataFrameChecks(df1, df2)
+        self.assertEqual(dual_check.check_compare_data(["firstname", "lastname"]), 'Passed')
+        dual_check_failure = DualDataFrameChecks(df1, df3)
+        self.assertEqual(dual_check_failure.check_compare_data(["firstname", "lastname"]), 'Failed')
+
 
 if __name__ == '__main__':
     unittest.main()

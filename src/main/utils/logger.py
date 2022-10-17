@@ -13,8 +13,8 @@ class CustomLogger:
     
     """
 
-    def __init__(self, file_name, log_level):
-        self.logger = logging.getLogger(__name__)
+    def __init__(self, file_name, log_level, log_name):
+        self.logger = logging.getLogger(log_name)
         self.formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
         self.file_handler = logging.FileHandler(file_name)
         self.file_handler.setFormatter(self.formatter)

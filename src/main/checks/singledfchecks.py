@@ -1,3 +1,4 @@
+import logging
 from pyspark.sql import functions
 from pyspark.sql.functions import sum, col, rank, collect_list, asc
 from pyspark.sql.window import Window
@@ -16,8 +17,11 @@ class SingleDataFrameChecks:
     def __init__(self, dataframe, log_file_location='singledfchecks.log'):
 
         self.dataframe = dataframe
-        self.logger_instance = CustomLogger(log_file_location, 10)
-        self.logger = self.logger_instance.instantiate()
+        if not logging.getLogger(__name__).hasHandlers():
+            self.logger_instance = CustomLogger(log_file_location, 10, __name__)
+            self.logger = self.logger_instance.instantiate()
+        else:
+            self.logger = logging.getLogger(__name__)
 
     def check_duplicates(self, columns):
         """

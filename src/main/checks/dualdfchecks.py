@@ -1,3 +1,4 @@
+import logging
 from src.main.utils.logger import CustomLogger
 
 
@@ -14,8 +15,11 @@ class DualDataFrameChecks:
     def __init__(self, df1, df2, log_file_location='dualdfchecks.log'):
         self.df1 = df1
         self.df2 = df2
-        self.logger_instance = CustomLogger(log_file_location, 10)
-        self.logger = self.logger_instance.instantiate()
+        if not logging.getLogger(__name__).hasHandlers():
+            self.logger_instance = CustomLogger(log_file_location, 10, __name__)
+            self.logger = self.logger_instance.instantiate()
+        else:
+            self.logger = logging.getLogger(__name__)
 
     def check_columns(self):
         """
@@ -99,7 +103,6 @@ class DualDataFrameChecks:
         return status
 
     def check_count(self):
-
         """
         Summary: This function is used to check if the total record counts are the same between 2 different
         dataframes.
@@ -118,5 +121,30 @@ class DualDataFrameChecks:
             self.logger.warning("The counts between 2 dataframes are not matching. The count in the first dataframe "
                                 "is: {0} & the count in the second dataframe is: {1}".format(df1_count, df2_count))
             status = 'Failed'
+
+        return status
+
+    def check_compare_data(self, column):
+        """
+        Summary: This function is used to compare the data between two dataframes.
+
+        Parameter: List of columns that has to be returned in case if the dataframes are not matching each other
+
+        Output: Returns the status of the test i.e. Passed or Failed.
+        """
+
+        result = self.df1.subtract(self.df2)
+        difference_count = result.count()
+
+        if difference_count > 0:
+            self.logger.warning("There are differences between two dataframe. "
+                                "There are a total of {0} records mismatch".format(difference_count))
+            self.logger.warning("The sample records from the first dataframe are: ")
+            difference = result.select(column).take(10)
+            self.logger.warning(difference)
+            status = 'Failed'
+        else:
+            self.logger.info("The data between the two dataframes are matching")
+            status = 'Passed'
 
         return status
