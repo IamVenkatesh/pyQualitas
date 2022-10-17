@@ -15,7 +15,7 @@ setup(
     url='https://github.com/IamVenkatesh/pyvalidator/wiki',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    install_requires=["pyspark >= 3.3.0", "plotly >= 5.10.0"],
+    install_requires=["pyspark >= 3.3.0", "pandas >= 1.5.0"],
     packages=['main'],
     package_dir={'main': 'src/main'},
     classifiers=[

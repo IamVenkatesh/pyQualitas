@@ -6,7 +6,7 @@ dataflare which are also aimed towards the quality of the data.
 **Requirements:**
 
 1. Pyspark - Version 3.3.0
-2. Plotly - Version 5.10.0
+2. Pandas - Version 1.5.0
 
 **Installation:**
 
