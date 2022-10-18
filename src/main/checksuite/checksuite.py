@@ -28,5 +28,4 @@ class CheckSuite:
                     else:
                         self.results_list.append((test_name, test_description, result))
                         break
-        results = pd.DataFrame(self.results_list)
-        return results
+        return self.results_list

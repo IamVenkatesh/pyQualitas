@@ -1,4 +1,7 @@
 from pyspark.sql import SparkSession
+import pandas as pd
+import json
+
 
 
 class Helper:
@@ -46,5 +49,10 @@ class Helper:
 
         Output: Writes the html file to the user defined location
         """
+        results = pd.DataFrame(test_result).reset_index()
+        data = []
+        data = json.loads(results.to_json(orient ='records'))
+        context = {'d': data}
+        
 
-
+        
