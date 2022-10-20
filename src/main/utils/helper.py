@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 import pandas as pd
 import json
+from flask import render_template
 
 
 
@@ -43,16 +44,18 @@ class Helper:
 
     def create_html_report(self, test_result):
         """
-        Summary: This function is a helper to create the html report to display the results generated in checksuite
+        Summary: This function is a helper to create the html report to display the results generated in checksuite.
+        The output returned from this function can be written as a HTML file.
 
-        Parameters: Dataframe containing test results, Location with the filename to which the results have to be saved
+        Parameters: Dataframe containing test results
 
-        Output: Writes the html file to the user defined location
+        Output: Returns the rendered HTML template as string
         """
         results = pd.DataFrame(test_result).reset_index()
-        data = []
-        data = json.loads(results.to_json(orient ='records'))
+        data = json.loads(results.to_json(orient='records'))
         context = {'d': data}
+        html_output = render_template('./template/TestResultTemplate.html', d=context)
+        return html_output
         
 
         

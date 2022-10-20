@@ -15,7 +15,7 @@ setup(
     url='https://github.com/IamVenkatesh/pyvalidator/wiki',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    install_requires=["pyspark >= 3.3.0", "pandas >= 1.5.0"],
+    install_requires=["pyspark >= 3.3.0", "pandas >= 1.5.0, flask >= 2.2.2, jinja2 >= 3.1.2"],
     packages=['main'],
     package_dir={'main': 'src/main'},
     classifiers=[
