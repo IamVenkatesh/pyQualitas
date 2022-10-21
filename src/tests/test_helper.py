@@ -50,3 +50,5 @@ class TestHelper(unittest.TestCase):
         helper = Helper(self.spark)
         helper.generate_report_csv(test_result, "TestResult.csv")
         self.assertEqual(os.path.exists("TestResult.csv"), True)
+        helper.generate_html_report(test_result, "TestResult.html")
+        self.assertEqual(os.path.exists("TestResult.html"), True)

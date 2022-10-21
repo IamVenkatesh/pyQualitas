@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <style>
+            .body {
+                margin: 0 100;
+                background: whitesmoke;
+            }
+            .results {
+                height: 550px;
+                width: 25%;
+                float: left;
+            }
+        </style>
+    </head>
+    <body>
+      <div id="header" style="background:lightblue; height:100">
+    	<h1 style="color:black; font-size:200%; text-align:center; position:relative; top:40%">PyQuality Test Report</h1>
+      </div>
+	  <div id="empty-space1" style="height:100;"></div>
+      <div id="container">
+	  <div class="results"></div>
+ 	  <div class="results"></div>
+	  <div class="results"></div>
+	  <div class="results"></div>
+	</div>
+	<div id="testresult" style="height:46%; width:100%">
+		<h2><b>Test Results</b></h2>
+	    {{results_table}}
+	</div>
+	<div id="empty-space2" style="height:100;"></div>
+	<div id="footer" style="background:lightblue; height:50">
+	    <p style="position:relative; top:10%">
+	        <a href="https://github.com/IamVenkatesh/pyQuality/wiki">&nbsp Powered by Python<br>&nbsp For more details: PyQuality Documentation</a>
+	    </p>
+	</div>
+    </body>
+ </html>

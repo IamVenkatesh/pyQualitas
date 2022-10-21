@@ -1,5 +1,8 @@
+import os
+
 from pyspark.sql import SparkSession
 import pandas as pd
+from jinja2 import Environment, FileSystemLoader
 
 
 class Helper:
@@ -49,3 +52,14 @@ class Helper:
         """
         results = pd.DataFrame(data=test_results, columns=["test_name", "test_description", "status"])
         return results.to_csv(file_location, index=False)
+
+    @staticmethod
+    def generate_html_report(test_results, file_location):
+        results_table = pd.DataFrame(data=test_results, columns=["test_name", "test_description", "status"]).to_html(index=False)
+        env = Environment(loader=FileSystemLoader('../main/template'))
+        template = env.get_template('TestResult.html')
+        html = template.render(results_table=results_table)
+        with open(file_location, "w") as file:
+            file.write(html)
+        file.close()
+
