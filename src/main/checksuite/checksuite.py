@@ -26,6 +26,6 @@ class CheckSuite:
                         sleep(self.sleep_time)
                         retry_count += 1
                     else:
-                        self.results_list.append((test_name, test_description, result))
+                        self.results_list.append([test_name, test_description, result])
                         break
         return self.results_list
