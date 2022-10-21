@@ -41,5 +41,11 @@ class Helper:
 
     @staticmethod
     def generate_report_csv(test_results, file_location):
+        """
+        Summary: This static function is a helper to save the test results in a csv file
+        :param test_results: The output from the checksuite method
+        :param file_location: The location where the csv file has to be saved. For example: /home/pyquality/TestResults.csv
+        :return: A csv file written to the user defined location
+        """
         results = pd.DataFrame(data=test_results, columns=["test_name", "test_description", "status"])
         return results.to_csv(file_location, index=False)
