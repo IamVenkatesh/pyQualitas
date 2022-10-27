@@ -3,6 +3,7 @@ import os
 from pyspark.sql import SparkSession
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
+import datetime
 
 
 class Helper:
@@ -63,7 +64,8 @@ class Helper:
         env = Environment(loader=FileSystemLoader('../main/template'))
         template = env.get_template('TestResult.html')
         html = template.render(results_table=results_table, total_test_count=total_test_count,
-                               total_pass_count=total_pass_count, total_fail_count=total_fail_count)
+                               total_pass_count=total_pass_count, total_fail_count=total_fail_count,
+                               report_time=datetime.datetime.now())
         with open(file_location, "w") as file:
             file.write(html)
         file.close()
