@@ -31,7 +31,7 @@ class TestHelper(unittest.TestCase):
         cls.spark.stop()
         print("The spark session has been closed")
 
-    def testHTMLReport(self):
+    def testCSVReport(self):
         employee = self.spark.createDataFrame(
             data=self.employee_data, schema=self.employee_schema)
         single_df = SingleDataFrameChecks(employee)
@@ -49,6 +49,23 @@ class TestHelper(unittest.TestCase):
         test_result = check_suite.collect_result()
         helper = Helper(self.spark)
         helper.generate_report_csv(test_result, "TestResult.csv")
-        self.assertEqual(os.path.exists("TestResult.csv"), True)
+
+    def testHTMLReport(self):
+        employee = self.spark.createDataFrame(
+            data=self.employee_data, schema=self.employee_schema)
+        single_df = SingleDataFrameChecks(employee)
+        checks = {
+            "Test Case 1": {
+                "Validate if there are no duplicates in employee id column":
+                    single_df.check_duplicates(["employee_id"])
+            },
+            "Test Case 2": {
+                "Validate if the employee table is not empty":
+                    single_df.check_empty()
+            }
+        }
+        check_suite = CheckSuite(checks)
+        test_result = check_suite.collect_result()
+        helper = Helper(self.spark)
         helper.generate_html_report(test_result, "TestResult.html")
         self.assertEqual(os.path.exists("TestResult.html"), True)
