@@ -50,16 +50,20 @@ class Helper:
         :param file_location: The location where the csv file has to be saved. For example: /home/pyquality/TestResults.csv
         :return: A csv file written to the user defined location
         """
-        results = pd.DataFrame(data=test_results, columns=["test_name", "test_description", "status"])
+        results = pd.DataFrame(data=test_results, columns=["TestName", "TestDescription", "Status"])
         return results.to_csv(file_location, index=False)
 
     @staticmethod
     def generate_html_report(test_results, file_location):
-        results_table = pd.DataFrame(data=test_results, columns=["test_name", "test_description", "status"]).to_html(index=False)
+        test_result_df = pd.DataFrame(data=test_results, columns=["TestName", "TestDescription", "Status"])
+        results_table = test_result_df.to_html(index=False)
+        total_test_count = len(test_result_df)
+        total_pass_count = len(test_result_df[test_result_df['Status'] == 'Passed'])
+        total_fail_count = len(test_result_df[test_result_df['Status'] == 'Failed'])
         env = Environment(loader=FileSystemLoader('../main/template'))
         template = env.get_template('TestResult.html')
-        html = template.render(results_table=results_table)
+        html = template.render(results_table=results_table, total_test_count=total_test_count,
+                               total_pass_count=total_pass_count, total_fail_count=total_fail_count)
         with open(file_location, "w") as file:
             file.write(html)
         file.close()
-
