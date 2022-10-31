@@ -55,13 +55,13 @@ class Helper:
         return results.to_csv(file_location, index=False)
 
     @staticmethod
-    def generate_html_report(test_results, file_location):
+    def generate_html_report(test_results, file_location, template_file_location):
         test_result_df = pd.DataFrame(data=test_results, columns=["TestName", "TestDescription", "Status"])
         results_table = test_result_df.to_html(index=False)
         total_test_count = len(test_result_df)
         total_pass_count = len(test_result_df[test_result_df['Status'] == 'Passed'])
         total_fail_count = len(test_result_df[test_result_df['Status'] == 'Failed'])
-        env = Environment(loader=FileSystemLoader('../src/main/template'))
+        env = Environment(loader=FileSystemLoader(template_file_location))
         template = env.get_template('TestResult.html')
         html = template.render(results_table=results_table, total_test_count=total_test_count,
                                total_pass_count=total_pass_count, total_fail_count=total_fail_count,

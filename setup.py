@@ -17,7 +17,8 @@ setup(
     long_description_content_type='text/markdown',
     install_requires=["pyspark >= 3.3.0", "plotly >= 5.10.0", "pandas >= 1.5.0"],
     packages=['main'],
-    package_dir={'main': 'src/main'},
+    package_dir={'main': 'src'},
+    package_data={'package': ['src/template/TestResult.html']},
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',

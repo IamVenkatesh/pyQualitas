@@ -1,5 +1,5 @@
 import logging
-from src.main.utils.logger import CustomLogger
+from src.utils.logger import CustomLogger
 
 
 class DualDataFrameChecks:

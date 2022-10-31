@@ -1,7 +1,7 @@
 import unittest
 from pyspark.sql import SparkSession
-from src.main.checksuite.checksuite import CheckSuite
-from src.main.checks.singledfchecks import SingleDataFrameChecks
+from src.checksuite.checksuite import CheckSuite
+from src.checks import SingleDataFrameChecks
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
 
