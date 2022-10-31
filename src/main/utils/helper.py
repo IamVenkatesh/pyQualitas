@@ -61,7 +61,7 @@ class Helper:
         total_test_count = len(test_result_df)
         total_pass_count = len(test_result_df[test_result_df['Status'] == 'Passed'])
         total_fail_count = len(test_result_df[test_result_df['Status'] == 'Failed'])
-        env = Environment(loader=FileSystemLoader('../main/template'))
+        env = Environment(loader=FileSystemLoader('../src/main/template'))
         template = env.get_template('TestResult.html')
         html = template.render(results_table=results_table, total_test_count=total_test_count,
                                total_pass_count=total_pass_count, total_fail_count=total_fail_count,
