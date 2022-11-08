@@ -1,5 +1,3 @@
-import os
-
 from pyspark.sql import SparkSession
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader

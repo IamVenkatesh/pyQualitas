@@ -1,5 +1,4 @@
 from time import sleep
-import pandas as pd
 
 
 class CheckSuite:

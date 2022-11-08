@@ -1,6 +1,6 @@
 import unittest
-from src.checks import DualDataFrameChecks
-from src.utils import Helper
+from src.checks.dualdfchecks import DualDataFrameChecks
+from src.utils.helper import Helper
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
