@@ -67,5 +67,5 @@ class TestHelper(unittest.TestCase):
         check_suite = CheckSuite(checks)
         test_result = check_suite.collect_result()
         helper = Helper(self.spark)
-        helper.generate_html_report(test_result, "TestResult.html", '../src/pyquality/template')
+        helper.generate_html_report(test_result, "TestResult.html", '../src/pyquality/utils/template')
         self.assertEqual(os.path.exists("TestResult.html"), True)
