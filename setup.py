@@ -8,7 +8,7 @@ setup(
     author="Venkatesh Venkataramani",
     author_email="venkatesh.venkataramani@gmail.com",
     url="https://github.com/IamVenkatesh/pyQuality/wiki",
-    packages=find_packages(include_dirs=["pyquality", "pyquality/*"]),
+    packages=find_packages(include=["pyquality", "pyquality/*"]),
     package_dir={'pyquality': 'src/pyquality'},
     package_data={'pyquality': ['pyquality/utils/template/TestResult.html']},
     install_requires=[
