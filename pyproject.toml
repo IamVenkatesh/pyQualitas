@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyQuality"
-version = "1.0"
+version = "1.0.0"
 authors = [
   { name="Venkatesh Venkataramani", email="venkatesh.venkataramani@outlook.com" },
 ]
