@@ -25,5 +25,4 @@ setup(
         "Topic :: Software Development :: Testing"
     ],
     include_package_data=True,
-    requires='python>=3.8',
 )
