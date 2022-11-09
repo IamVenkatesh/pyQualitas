@@ -5,6 +5,7 @@ setup(
     name="pyQuality",
     version="1.0.0",
     description="A project to ensure the data quality using python",
+    long_description=open("README.md").read(),
     author="Venkatesh Venkataramani",
     author_email="venkatesh.venkataramani@gmail.com",
     url="https://github.com/IamVenkatesh/pyQuality/wiki",
