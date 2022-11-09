@@ -1,8 +1,8 @@
 import unittest
 from pyspark.sql import SparkSession
-from src.checksuite.checksuite import CheckSuite
-from src.checks.singledfchecks import SingleDataFrameChecks
-from src.utils.helper import Helper
+from src.pyquality.checksuite.checksuite import CheckSuite
+from src.pyquality.checks.singledfchecks import SingleDataFrameChecks
+from src.pyquality.utils.helper import Helper
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 import os.path
 
@@ -67,5 +67,5 @@ class TestHelper(unittest.TestCase):
         check_suite = CheckSuite(checks)
         test_result = check_suite.collect_result()
         helper = Helper(self.spark)
-        helper.generate_html_report(test_result, "TestResult.html", '../src/template')
+        helper.generate_html_report(test_result, "TestResult.html", '../src/pyquality/template')
         self.assertEqual(os.path.exists("TestResult.html"), True)
