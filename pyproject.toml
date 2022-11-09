@@ -33,7 +33,7 @@ include-package-data = true
 where = ["src"]
 
 [tool.setuptools.package-data]
-"pyquality.template" = ["TestResult.html"]
+"pyquality.utils.template" = ["TestResult.html"]
 
 [project.urls]
 "Homepage" = "https://github.com/IamVenkatesh/pyQuality/wiki"
