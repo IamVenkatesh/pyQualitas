@@ -1,8 +1,8 @@
 import unittest
 from pyspark.sql import SparkSession
-from src.pyquality.checksuite.checksuite import CheckSuite
-from src.pyquality.checks.singledfchecks import SingleDataFrameChecks
-from src.pyquality.utils.helper import Helper
+from src.pyqualitas.checksuite.checksuite import CheckSuite
+from src.pyqualitas.checks.singledfchecks import SingleDataFrameChecks
+from src.pyqualitas.utils.helper import Helper
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 import os.path
 

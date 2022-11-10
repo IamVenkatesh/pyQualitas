@@ -1,5 +1,5 @@
 import logging
-from src.pyquality.utils.logger import CustomLogger
+from src.pyqualitas.utils.logger import CustomLogger
 
 
 class DualDataFrameChecks:
