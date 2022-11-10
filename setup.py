@@ -21,7 +21,7 @@ setup(
     classifiers=[
         "Programming Language :: Python :: 3.8",
         "License :: OSI Approved :: MIT License",
-        "Operating System :: Linux",
+        "Operating System :: Unix",
         "Development Status :: 4 - Beta",
         "Topic :: Software Development :: Quality Assurance",
         "Topic :: Software Development :: Testing"
