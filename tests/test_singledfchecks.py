@@ -1,5 +1,5 @@
 import unittest
-from src.pyqualitas.checks.singledfchecks import SingleDataFrameChecks
+from pyqualitas.checks.singledfchecks import SingleDataFrameChecks
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
