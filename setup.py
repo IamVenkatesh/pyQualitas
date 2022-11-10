@@ -11,6 +11,7 @@ setup(
     author_email="venkatesh.venkataramani@gmail.com",
     url="https://github.com/IamVenkatesh/pyQuality/wiki",
     packages=['pyqualitas', 'pyqualitas/checks', 'pyqualitas/checksuite', 'pyqualitas/utils'],
+    package_dir={"":"src"},
     package_data={'pyqualitas/utils': ['pyqualitas/utils/template/TestResult.html']},
     install_requires=[
         "pyspark >= 3.3.0",
