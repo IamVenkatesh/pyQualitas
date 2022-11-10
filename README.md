@@ -1,4 +1,4 @@
-# pyvalidator
+# pyqualitas
 
 This project aims towards developing a python library ensure quality of the data. This project is an inspiration from deequ and 
 dataflare which are also aimed towards the quality of the data.
@@ -23,4 +23,4 @@ There are various tests in this library that would come in handy during the regr
 
 The documentation can be found in the following link:
 
-https://github.com/IamVenkatesh/pyQuality/wiki
+https://github.com/IamVenkatesh/pyQualitas/wiki

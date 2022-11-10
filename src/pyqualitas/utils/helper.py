@@ -47,7 +47,7 @@ class Helper:
         """
         Summary: This static function is a helper to save the test results in a csv file
         :param test_results: The output from the checksuite method
-        :param file_location: The location where the csv file has to be saved. For example: /home/pyquality/TestResults.csv
+        :param file_location: The location where the csv file has to be saved. For example: /home/pyqualitas/TestResults.csv
         :return: A csv file written to the user defined location
         """
         results = pd.DataFrame(data=test_results, columns=["TestName", "TestDescription", "Status"])
