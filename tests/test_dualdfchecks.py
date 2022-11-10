@@ -1,6 +1,6 @@
 import unittest
-from pyqualitas.checks.dualdfchecks import DualDataFrameChecks
-from pyqualitas.utils.helper import Helper
+from src.pyqualitas.checks.dualdfchecks import DualDataFrameChecks
+from src.pyqualitas.utils.helper import Helper
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
