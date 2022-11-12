@@ -23,38 +23,35 @@ class SingleDataFrameChecks:
         else:
             self.logger = logging.getLogger(__name__)
 
-    def check_duplicates(self, columns):
+    def check_duplicates(self, sample_columns, all_columns = True, columns = None):
         """
-        Summary: This function is used to check if there are any duplicate values in the user-defined columns. 
-        Kindly note that the columns mentioned in the list will be used independently and not in a combined fashion.
+        Summary: This function is used to check if there are any duplicate values in the user-defined columns. The method
+        by default will check for all columns in the dataframe.
 
-        Parameters: List of columns for which the duplicate values have to checked.
+        Parameters: A list of sample columns to return the sample values with duplicates, a boolean value (default is True)
+        which indicates that all columns present under the dataframe will be used, if a specific list of columns from a dataframe
+        has to be validated then all columns should be set to false & the list of columns should be specified.
 
         Output: Returns the status of the test i.e. Passed or Failed
 
         """
-        columns_with_duplicates = 0
-
-        for column in columns:
-            distinct_count = self.dataframe.select(column).distinct().count()
-            total_count = self.dataframe.select(column).count()
-
-            if distinct_count == total_count:
-                self.logger.info(
-                    "The column {0} has no duplicate values".format(column))
-            else:
-                duplicates = self.dataframe.groupBy(column).agg(functions.count(
-                    '*').alias('count')).filter(functions.col('count') > 1)
-                duplicate_values = set(duplicates.select(
-                    column).rdd.map(lambda x: x[0]).collect())
-                self.logger.warning("The column {0} has duplicate values. The following are the list of duplicates: {1}".format(
-                    column, duplicate_values))
-                columns_with_duplicates += 1
-
-        if columns_with_duplicates > 0:
-            status = 'Failed'
+        if all_columns == True:
+            dataframe_columns = self.dataframe.columns
         else:
+            dataframe_columns = columns
+
+        distinct_count = self.dataframe.select(dataframe_columns).distinct().count()
+        total_count = self.dataframe.select(dataframe_columns).count()
+
+        if distinct_count == total_count:
+            self.logger.info("The dataframe has no duplicate values")
             status = 'Passed'
+        else:
+            duplicates = self.dataframe.groupBy(dataframe_columns).agg(functions.count('*')
+                .alias('count')).filter(functions.col('count') > 1)
+            duplicate_values = duplicates.select(sample_columns).take(10)
+            self.logger.warning("The dataframe has duplicate values. The following are the list of duplicates: {0}".format(duplicate_values))
+            status = 'Failed' 
 
         return status
 

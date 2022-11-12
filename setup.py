@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="pyQualitas",
-    version="1.0.2",
+    version="1.0.3",
     description="A project to ensure the data quality using python",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
