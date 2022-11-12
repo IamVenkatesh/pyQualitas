@@ -35,8 +35,8 @@ class TestCheckSuite(unittest.TestCase):
         single_df = SingleDataFrameChecks(employee)
         checks = {
             "Test Case 1": {
-                "Validate if there are no duplicates in employee id column":
-                    single_df.check_duplicates(["employee_id"])
+                "Validate if there are no duplicates in employee table":
+                    single_df.check_duplicates()
             },
             "Test Case 2": {
                 "Validate if the employee table is not empty":
@@ -44,7 +44,7 @@ class TestCheckSuite(unittest.TestCase):
             }
         }
         expected_result = [
-            ["Test Case 1", "Validate if there are no duplicates in employee id column", "Passed"],
+            ["Test Case 1", "Validate if there are no duplicates in employee table", "Passed"],
             ["Test Case 2", "Validate if the employee table is not empty", "Passed"]
         ]
         check_suite = CheckSuite(checks)
