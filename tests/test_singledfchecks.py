@@ -1,5 +1,5 @@
 import unittest
-from src.pyqualitas.checks.singledfchecks import SingleDataFrameChecks
+from pyqualitas.checks.singledfchecks import SingleDataFrameChecks
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
@@ -32,10 +32,8 @@ class TestSingleDfChecks(unittest.TestCase):
         employee = self.spark.createDataFrame(
             data=self.employee_data, schema=self.employee_schema)
         test_class = SingleDataFrameChecks(employee)
-        self.assertEqual(test_class.check_duplicates(
-            ["employee_id"]), 'Passed')
-        self.assertEqual(test_class.check_duplicates(
-            ["firstname", "employee_id"]), 'Passed')
+        self.assertEqual(test_class.check_duplicates(), 'Passed')
+        self.assertEqual(test_class.check_duplicates(["firstname", "employee_id"]), 'Passed')
         self.assertEqual(test_class.check_duplicates(["salary"]), 'Failed')
 
     def test_check_threshold_count(self):

@@ -1,8 +1,8 @@
 import unittest
 from pyspark.sql import SparkSession
-from src.pyqualitas.checksuite.checksuite import CheckSuite
-from src.pyqualitas.checks.singledfchecks import SingleDataFrameChecks
-from src.pyqualitas.utils.helper import Helper
+from pyqualitas.checksuite.checksuite import CheckSuite
+from pyqualitas.checks.singledfchecks import SingleDataFrameChecks
+from pyqualitas.utils.helper import Helper
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 import os.path
 
@@ -37,8 +37,8 @@ class TestHelper(unittest.TestCase):
         single_df = SingleDataFrameChecks(employee)
         checks = {
             "Test Case 1": {
-                "Validate if there are no duplicates in employee id column":
-                    single_df.check_duplicates(["employee_id"])
+                "Validate if there are no duplicates in employee table":
+                    single_df.check_duplicates()
             },
             "Test Case 2": {
                 "Validate if the employee table is not empty":
@@ -56,8 +56,8 @@ class TestHelper(unittest.TestCase):
         single_df = SingleDataFrameChecks(employee)
         checks = {
             "Test Case 1": {
-                "Validate if there are no duplicates in employee id column":
-                    single_df.check_duplicates(["employee_id"])
+                "Validate if there are no duplicates in employee table":
+                    single_df.check_duplicates()
             },
             "Test Case 2": {
                 "Validate if the employee table is not empty":

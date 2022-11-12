@@ -1,4 +1,4 @@
-# PyQualitas
+**PyQualitas**
 
 This project aims towards developing a python library ensure quality of the data. This project is an inspiration from deequ and 
 dataflare which are also aimed towards the quality of the data.
