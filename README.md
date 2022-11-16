@@ -11,7 +11,13 @@ dataflare which are also aimed towards the quality of the data.
 
 **Installation:**
 
-This section will be updated upon reaching the milestone of project packaging
+The package can be installed as follows:
+
+"pip install pyQualitas"
+
+The test version of this package can be installed as follows:
+
+"pip install -i https://test.pypi.org/simple/ pyQualitas"
 
 **Use Cases:**
 

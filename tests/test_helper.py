@@ -1,9 +1,10 @@
 import unittest
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 from pyqualitas.checksuite.checksuite import CheckSuite
 from pyqualitas.checks.singledfchecks import SingleDataFrameChecks
 from pyqualitas.utils.helper import Helper
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 import os.path
 
 
@@ -69,3 +70,15 @@ class TestHelper(unittest.TestCase):
         helper = Helper(self.spark)
         helper.generate_html_report(test_result, "TestResult.html")
         self.assertEqual(os.path.exists("TestResult.html"), True)
+    
+    def testpublishudf(self):
+        employee = self.spark.createDataFrame(
+            data=self.employee_data, schema=self.employee_schema)
+        
+        def calculate_bonus(input_value):
+            return round(input_value * 0.1, 0)
+        
+        calcbonus = Helper.publish_udf(calculate_bonus(input_value=0), IntegerType())
+        employee_with_bonus = employee.withColumn("bonus", calcbonus(col("salary")))
+        single_df = SingleDataFrameChecks(employee_with_bonus)
+        self.assertEqual(single_df.check_distinct_values("bonus"), [5000, 6000, 5000, 7000, 9000])

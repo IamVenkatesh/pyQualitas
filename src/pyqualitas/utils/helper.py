@@ -1,4 +1,5 @@
-from pyspark.sql import SparkSession
+from pyspark.sql import SparkSession, udf
+from pyspark.sql.types import StringType
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 import datetime
@@ -43,18 +44,38 @@ class Helper:
         return self.spark.createDataFrame(data=dataframe, schema=schema)
 
     @staticmethod
+    def publish_udf(function, return_type=StringType()):
+        """
+        Summary: This function is a helper to generate udf from a python function
+
+        Parameters: Python function with parameters, Return Type of the function i.e. StringType, FloatType, DateType etc
+
+        Output: Publishes an udf based on the python function        
+        """
+        return udf(lambda *args: function, return_type)
+
+
+    @staticmethod
     def generate_report_csv(test_results, file_location):
         """
         Summary: This static function is a helper to save the test results in a csv file
-        :param test_results: The output from the checksuite method
-        :param file_location: The location where the csv file has to be saved. For example: /home/pyqualitas/TestResults.csv
-        :return: A csv file written to the user defined location
+        
+        Parameters: The output from the checksuite method, location where the csv file has to be saved. For example: /home/pyqualitas/TestResults.csv
+        
+        Output: A csv file written to the user defined location
         """
         results = pd.DataFrame(data=test_results, columns=["TestName", "TestDescription", "Status"])
         return results.to_csv(file_location, index=False)
 
     @staticmethod
     def generate_html_report(test_results, file_location):
+        """
+        Summary: This static function is a helper to save the test results in a html file
+        
+        Parameters: The output from the checksuite method, location where the HTML file has to be saved. For example: /home/pyqualitas/TestResults.html
+        
+        Output: A html file written to the user defined location
+        """
         test_result_df = pd.DataFrame(data=test_results, columns=["TestName", "TestDescription", "Status"])
         results_table = test_result_df.to_html(index=False)
         total_test_count = len(test_result_df)
