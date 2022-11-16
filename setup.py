@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name="pyQualitas",
-    version="1.0.6",
+    version="1.0.7",
     description="A project to ensure the data quality using python",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -17,6 +17,8 @@ setup(
         "pyspark >= 3.3.0",
         "Jinja2 >= 3.1.2",
         "pandas >= 1.5.0",
+        "slack-sdk >= 3.19.3",
+        "pymsteams >= 0.2.2",
     ],
     classifiers=[
         "Programming Language :: Python :: 3.8",

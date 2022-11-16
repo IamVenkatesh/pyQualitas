@@ -8,6 +8,8 @@ dataflare which are also aimed towards the quality of the data.
 1. Pyspark - Version 3.3.0
 2. Pandas - Version 1.5.0
 3. Jinja2 - Version 3.1.2
+4. Slack-SDK - Version 3.19.3
+5. PyMSTeams - Version 0.2.2
 
 **Installation:**
 
