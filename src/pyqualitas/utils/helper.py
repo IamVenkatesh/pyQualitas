@@ -1,5 +1,4 @@
-from pyspark.sql import SparkSession, udf
-from pyspark.sql.types import StringType
+from pyspark.sql import SparkSession
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 import datetime
@@ -42,18 +41,6 @@ class Helper:
         Output: Returns a spark dataframe
         """
         return self.spark.createDataFrame(data=dataframe, schema=schema)
-
-    @staticmethod
-    def publish_udf(function, return_type=StringType()):
-        """
-        Summary: This function is a helper to generate udf from a python function
-
-        Parameters: Python function with parameters, Return Type of the function i.e. StringType, FloatType, DateType etc
-
-        Output: Publishes an udf based on the python function        
-        """
-        return udf(lambda *args: function, return_type)
-
 
     @staticmethod
     def generate_report_csv(test_results, file_location):
