@@ -12,8 +12,8 @@ class ArbitaryChecks:
             self.logger = logging.getLogger(__name__)
         self.check_number = 1
     
-    def arbitary_check(self, actual_result, expected_result):
-        if actual_result == expected_result:
+    def arbitary_check(self, check, expected_result):
+        if check == expected_result:
             self.logger.info("The arbitary check - {0} has passed".format(self.check_number))
             status = 'Passed'
         else:
