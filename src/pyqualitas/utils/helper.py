@@ -105,10 +105,10 @@ class Helper:
                 client.chat_postMessage(channel=channel_name, text=message)
                 if file_location is not None:
                     for items in file_location:
-                        client.files_upload(channels=channel_name, 
-                                            title="PyQualitas Test Results", 
-                                            file=items, 
-                                            initial_comment="Attachment below:")
+                        client.client.files_upload_v2(channels=channel_name, 
+                                                      title="PyQualitas Test Results", 
+                                                      file=items, 
+                                                      initial_comment="Attachment below:")
         pass
         
     @staticmethod
