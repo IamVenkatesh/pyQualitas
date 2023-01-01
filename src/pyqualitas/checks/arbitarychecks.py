@@ -1,10 +1,13 @@
 import logging
+import os
 from pyqualitas.utils.logger import CustomLogger
 
 
 class ArbitaryChecks:
 
     def __init__(self, log_file_location='arbitarychecks.log'):
+        if os.path.exists(log_file_location):
+            os.remove(log_file_location)
         if not logging.getLogger(__name__).hasHandlers():
             self.logger_instance = CustomLogger(log_file_location, 10, __name__)
             self.logger = self.logger_instance.instantiate()
