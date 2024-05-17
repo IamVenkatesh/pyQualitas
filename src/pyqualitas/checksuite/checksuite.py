@@ -3,9 +3,8 @@ from time import sleep
 
 class CheckSuite:
 
-    def __init__(self, checks, retries=10, sleep_time=60):
+    def __init__(self, checks, sleep_time=60):
         self.checks = checks
-        self.retries = retries
         self.sleep_time = sleep_time
         self.results_list = []
 
@@ -15,16 +14,17 @@ class CheckSuite:
 
         Parameters: Number of retries and the wait time for the tests to complete the execution. Default value is 10, 60
 
-        Output: Returns a List of Tuples with Test Case Name, Test Description and Test Result
+        Output: Returns a List with Test Case Name, Test Description and Test Result
         """
-        for test_name, values in self.checks.items():
-            for test_description, result in values.items():
-                retry_count = 0
-                while retry_count <= self.retries:
-                    if result not in ["Passed", "Failed"]:
-                        sleep(self.sleep_time)
-                        retry_count += 1
-                    else:
+        total_test = len(self.checks)
+        while total_test > 0:
+            for test_name, values in self.checks.items():
+                for test_description, result in values.items():
+                    if result in ["Passed", "Failed"]:
+                        total_test = total_test - 1
                         self.results_list.append([test_name, test_description, result])
-                        break
+                    else:
+                        continue
+            sleep(self.sleep_time)
+                        
         return self.results_list
