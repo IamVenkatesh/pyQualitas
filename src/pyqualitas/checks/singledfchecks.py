@@ -1,4 +1,5 @@
 import logging
+import os
 from pyspark.sql import functions
 from pyspark.sql.functions import sum, col, rank, collect_list, asc
 from pyspark.sql.window import Window
@@ -17,6 +18,8 @@ class SingleDataFrameChecks:
     def __init__(self, dataframe, log_file_location='singledfchecks.log'):
 
         self.dataframe = dataframe
+        if os.path.exists(log_file_location):
+            os.remove(log_file_location)
         if not logging.getLogger(__name__).hasHandlers():
             self.logger_instance = CustomLogger(log_file_location, 10, __name__)
             self.logger = self.logger_instance.instantiate()

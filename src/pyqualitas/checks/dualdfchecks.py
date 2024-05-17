@@ -1,4 +1,5 @@
 import logging
+import os
 from pyqualitas.utils.logger import CustomLogger
 
 
@@ -15,6 +16,8 @@ class DualDataFrameChecks:
     def __init__(self, df1, df2, log_file_location='dualdfchecks.log'):
         self.df1 = df1
         self.df2 = df2
+        if os.path.exists(log_file_location):
+            os.remove(log_file_location)
         if not logging.getLogger(__name__).hasHandlers():
             self.logger_instance = CustomLogger(log_file_location, 10, __name__)
             self.logger = self.logger_instance.instantiate()
