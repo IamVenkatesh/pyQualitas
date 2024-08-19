@@ -25,6 +25,7 @@ class TestHelper(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.spark = (SparkSession.builder.appName("UnitTests").getOrCreate())
+        cls.spark.sparkContext.setLogLevel("ERROR")
 
     @classmethod
     def tearDownClass(cls):

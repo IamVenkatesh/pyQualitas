@@ -86,8 +86,8 @@ class DualDataFrameChecks:
 
         """
 
-        df1_distinct_values = self.df1.select(col_df1).distinct().rdd.map(lambda x: x[0]).collect()
-        df2_distinct_values = self.df2.select(col_df2).distinct().rdd.map(lambda x: x[0]).collect()
+        df1_distinct_values = self.df1.select(col_df1).distinct().collect()[0][0]
+        df2_distinct_values = self.df2.select(col_df2).distinct().collect()[0][0]
         common_values = set(df1_distinct_values).intersection(set(df2_distinct_values))
 
         missing_values_df1 = [value for value in df1_distinct_values if value not in common_values]
