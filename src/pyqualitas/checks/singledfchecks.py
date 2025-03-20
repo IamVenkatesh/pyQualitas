@@ -110,7 +110,7 @@ class SingleDataFrameChecks:
         """
         threshold_sum_count = 0
         total_sum = self.dataframe.groupBy(group_columns).agg(sum(sum_column).alias('total'))
-        total_sum_value = total_sum.select('total').rdd.map(lambda x: x[0]).collect()
+        total_sum_value = total_sum.select('total').collect()[0]
 
         for value in total_sum_value:
             if lower_limit <= value <= upper_limit:
@@ -228,9 +228,8 @@ class SingleDataFrameChecks:
         Output: Returns the status of the test i.e. Passed or Failed
 
         """
-        input_column_values = self.dataframe.select(column).distinct().rdd.map(lambda x: x[0]).collect()
-        transformed_column_values = self.dataframe.filter(col(column).rlike(
-            regular_expression)).select(column).distinct().rdd.map(lambda x: x[0]).collect()
+        input_column_values = self.dataframe.select(column).distinct().collect()[0]
+        transformed_column_values = self.dataframe.filter(col(column).rlike(regular_expression)).select(column).distinct().collect()[0]
 
         if sorted(input_column_values) == sorted(transformed_column_values):
             self.logger.info(
@@ -286,7 +285,7 @@ class SingleDataFrameChecks:
         table = self.dataframe.withColumn("column_rank", rank().over(window_spec))
         result = table.groupBy(col('column_rank'), col(select_column)).agg(collect_list(col(select_column)).alias('result_list')) \
             .sort(asc('column_rank'), asc(select_column))
-        actual_values = result.select(col('result_list')).rdd.map(lambda x: x[0]).collect()
+        actual_values = result.select(col('result_list')).collect()[0]
         difference_count = 0
 
         if actual_values == expected_values:
@@ -345,7 +344,7 @@ class SingleDataFrameChecks:
         """
 
         difference_values = []
-        column_values = self.dataframe.select(column).distinct().rdd.map(lambda x: x[0]).collect()
+        column_values = self.dataframe.select(column).distinct().collect()[0]
 
         for val in column_values:
             if val not in values:

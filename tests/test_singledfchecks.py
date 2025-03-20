@@ -87,3 +87,8 @@ class TestSingleDfChecks:
         test_class = SingleDataFrameChecks(employee)
         assert test_class.check_distinct_values(column="firstname", values=["James", "Michael", "Robert", "Maria", "Jen"]) == 'Passed'
         assert test_class.check_distinct_values(column="firstname", values=["James", "Michael", "Robert", "Maria"]) == 'Failed'
+
+    def test_placeholder(self,spark):
+        employee = spark.createDataFrame(data=self.employee_data, schema=self.employee_schema)
+        test_class = SingleDataFrameChecks(employee)
+        assert test_class.check_distinct_values(column="firstname", values=["James", "Michael", "Robert", "Maria"]) == 'Passed'
