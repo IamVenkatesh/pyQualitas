@@ -1,5 +1,3 @@
-import unittest
-from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 from pyqualitas.checksuite.checksuite import CheckSuite
 from pyqualitas.checks.singledfchecks import SingleDataFrameChecks
@@ -7,7 +5,7 @@ from pyqualitas.utils.helper import Helper
 import os.path
 
 
-class TestHelper(unittest.TestCase):
+class TestHelper:
 
     employee_data = [("James", None, "Smith", 36636, "Male", 50000),
                      ("Michael", None, "Rose", 40288, "Male", 60000),
@@ -22,18 +20,9 @@ class TestHelper(unittest.TestCase):
                                   StructField("gender", StringType(), nullable=False),
                                   StructField("salary", IntegerType(), nullable=False)])
 
-    @classmethod
-    def setUpClass(cls):
-        cls.spark = (SparkSession.builder.appName("UnitTests").getOrCreate())
-        cls.spark.sparkContext.setLogLevel("ERROR")
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.spark.stop()
-        print("The spark session has been closed")
-
-    def testCSVReport(self):
-        employee = self.spark.createDataFrame(
+    def testCSVReport(self, spark):
+        employee = spark.createDataFrame(
             data=self.employee_data, schema=self.employee_schema)
         single_df = SingleDataFrameChecks(employee)
         checks = {
@@ -48,11 +37,13 @@ class TestHelper(unittest.TestCase):
         }
         check_suite = CheckSuite(checks)
         test_result = check_suite.collect_result()
-        helper = Helper(self.spark)
+        helper = Helper(spark)
         helper.generate_report_csv(test_result, "TestResult.csv")
+        assert os.path.exists("TestResult.csv") == True
+        os.remove("TestResult.csv")
 
-    def testHTMLReport(self):
-        employee = self.spark.createDataFrame(
+    def testHTMLReport(self, spark):
+        employee = spark.createDataFrame(
             data=self.employee_data, schema=self.employee_schema)
         single_df = SingleDataFrameChecks(employee)
         checks = {
@@ -67,6 +58,7 @@ class TestHelper(unittest.TestCase):
         }
         check_suite = CheckSuite(checks)
         test_result = check_suite.collect_result()
-        helper = Helper(self.spark)
+        helper = Helper(spark)
         helper.generate_html_report(test_result, "TestResult.html")
-        self.assertEqual(os.path.exists("TestResult.html"), True)
+        assert os.path.exists("TestResult.html") == True
+        os.remove("TestResult.html")
