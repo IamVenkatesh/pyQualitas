@@ -21,7 +21,7 @@ setup(
         "pymsteams >= 0.2.5",
     ],
     classifiers=[
-        "Programming Language :: Python :: 3.10.12",
+        "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: MIT License",
         "Operating System :: Unix",
         "Development Status :: 5 - Production/Stable",
