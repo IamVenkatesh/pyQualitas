@@ -109,10 +109,8 @@ class SingleDataFrameChecks:
 
         """
         threshold_sum_count = 0
-        total_sum = self.dataframe.groupBy(
-            group_columns).agg(sum(sum_column).alias('total'))
-        total_sum_value = total_sum.select(
-            'total').rdd.map(lambda x: x[0]).collect()
+        total_sum = self.dataframe.groupBy(group_columns).agg(sum(sum_column).alias('total'))
+        total_sum_value = total_sum.select('total').rdd.map(lambda x: x[0]).collect()
 
         for value in total_sum_value:
             if lower_limit <= value <= upper_limit:
@@ -231,8 +229,7 @@ class SingleDataFrameChecks:
 
         """
         input_column_values = self.dataframe.select(column).distinct().rdd.map(lambda x: x[0]).collect()
-        transformed_column_values = self.dataframe.filter(col(column).rlike(
-            regular_expression)).select(column).distinct().rdd.map(lambda x: x[0]).collect()
+        transformed_column_values = self.dataframe.filter(col(column).rlike(regular_expression)).select(column).distinct().rdd.map(lambda x: x[0]).collect()
 
         if sorted(input_column_values) == sorted(transformed_column_values):
             self.logger.info(

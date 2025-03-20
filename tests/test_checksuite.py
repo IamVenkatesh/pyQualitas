@@ -1,11 +1,9 @@
-import unittest
-from pyspark.sql import SparkSession
 from pyqualitas.checksuite.checksuite import CheckSuite
 from pyqualitas.checks.singledfchecks import SingleDataFrameChecks
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
 
-class TestCheckSuite(unittest.TestCase):
+class TestCheckSuite:
 
     employee_data = [("James", None, "Smith", 36636, "Male", 50000),
                      ("Michael", None, "Rose", 40288, "Male", 60000),
@@ -20,17 +18,9 @@ class TestCheckSuite(unittest.TestCase):
                                   StructField("gender", StringType(), nullable=False),
                                   StructField("salary", IntegerType(), nullable=False)])
 
-    @classmethod
-    def setUpClass(cls):
-        cls.spark = (SparkSession.builder.appName("UnitTests").getOrCreate())
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.spark.stop()
-        print("The spark session has been closed")
-
-    def test_collect_result(self):
-        employee = self.spark.createDataFrame(
+    def test_collect_result(self, spark):
+        employee = spark.createDataFrame(
             data=self.employee_data, schema=self.employee_schema)
         single_df = SingleDataFrameChecks(employee)
         checks = {
@@ -48,4 +38,4 @@ class TestCheckSuite(unittest.TestCase):
             ["Test Case 2", "Validate if the employee table is not empty", "Passed"]
         ]
         check_suite = CheckSuite(checks)
-        self.assertEqual(check_suite.collect_result(), expected_result)
+        assert check_suite.collect_result() == expected_result
