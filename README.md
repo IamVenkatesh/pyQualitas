@@ -5,11 +5,11 @@ dataflare which are also aimed towards the quality of the data.
 
 **Requirements:**
 
-1. Pyspark - Version 3.3.0
-2. Pandas - Version 1.5.0
-3. Jinja2 - Version 3.1.2
-4. Slack-SDK - Version 3.19.3
-5. PyMSTeams - Version 0.2.2
+1. Pyspark - Version 3.5.5 or greater
+2. Pandas - Version 2.2.3 or greater
+3. Jinja2 - Version 3.1.6 or greater
+4. Slack-SDK - Version 3.35.0 or greater
+5. PyMSTeams - Version 0.2.5 or greater
 
 **Installation:**
 
